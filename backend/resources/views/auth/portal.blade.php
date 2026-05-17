@@ -38,6 +38,13 @@
 </head>
 <body class="auth-body">
 
+    <!-- Glowing Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="container-auth {{ session('register_active') || $errors->has('name') || old('name') ? 'active' : '' }}">
         
         <!-- Login Form -->

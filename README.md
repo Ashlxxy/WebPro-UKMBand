@@ -1,151 +1,176 @@
-# UKM Band - Backend API & Mobile Music Platform
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Ashlxxy/Tubes-APB.git)
+# 🎸 UKM Band - Platform Musik Mobile & Backend API Glassmorphism
 
-This repository contains the source code for a music streaming platform developed for the Telkom University Student Activity Unit (UKM) Band. The project is now organized around a Laravel backend/API and a Flutter mobile application.
+[![UKM Band Platform](https://img.shields.io/badge/Platform-Flutter%20%7C%20Laravel%2012-red?style=for-the-badge&logo=laravel&logoColor=white)](https://github.com/Ashlxxy/Tubes-Kelompok2-WebPro)
+[![Developer Team](https://img.shields.io/badge/Kelompok-2_WebPro-crimson?style=for-the-badge)](https://github.com/Ashlxxy/Tubes-Kelompok2-WebPro)
 
-## Project Structure
-
-The repository is organized into the following main directories:
-
--   `backend/`: Contains the Laravel backend/API, database migrations, seeders, and demo media assets.
--   `ukm_band_mobile/`: Contains the source code for the Flutter mobile application.
--   `backend/database/dumps/Database-TubesKel2.sql`: SQL dump file for setting up demo data.
+Repository ini berisi kode sumber lengkap untuk **UKM Band Music Streaming Platform** — platform musik digital khusus Unit Kegiatan Mahasiswa (UKM) Band Universitas Telkom. Platform ini terdiri dari **Aplikasi Mobile (Flutter)** bergaya premium dan **Web Portal & REST API (Laravel)** berbasis database SQLite terintegrasi dengan arsitektur modern bertema **Premium Dark Glassmorphism**.
 
 ---
 
-## 1. Backend API (Laravel)
+## 📱 TAMPILAN APLIKASI MOBILE (FLUTTER) — PRIORITAS UTAMA
 
-A Laravel backend that powers authentication, songs, streaming, playlists, likes, comments, and listening history for the mobile app.
+Berikut adalah tampilan antarmuka pengguna (UI/UX) pada aplikasi mobile Flutter yang mengadopsi tema **Premium Dark Glassmorphism** dengan pendaran neon merah crimson:
 
-### Features
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_song_detail.png" alt="Detail Lagu Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>🎵 Detail Lagu & Pemutar</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_profile.png" alt="Profil Saya Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>👤 Profil Saya</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_edit_profile.png" alt="Edit Profil Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>⚙️ Edit Profil</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_song_card.png" alt="Widget Lagu" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>🖼️ Widget Kartu Lagu</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_comments.png" alt="Input Komentar" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>💬 Kolom Komentar</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/mobile_about.png" alt="Tentang Aplikasi" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>ℹ️ Tentang Aplikasi</b>
+    </td>
+  </tr>
+</table>
 
-#### User Features
-*   **Authentication**: Secure login and registration system.
-*   **Music Discovery**: Fetch latest and popular songs through the API.
-*   **Audio Streaming**: Stream uploaded audio files through protected API routes.
-*   **Playlist Management**: Create, manage, and add songs to personal playlists.
-*   **Social Interaction**: "Like" favorite songs and post nested comments on song pages.
-*   **Listening History**: Easily access recently played songs.
-*   **Mobile API Support**: Provides the endpoints used by the Flutter app.
+---
 
-### Tech Stack
+## 🌐 TAMPILAN PORTAL WEB (LARAVEL OVERHAUL)
 
-*   **Backend**: Laravel 12 (PHP 8.2+)
-*   **API Auth**: Laravel Sanctum
-*   **Database**: MySQL / MariaDB (production), SQLite (development)
-*   **Asset Bundling**: Vite
+Website UKM Band telah **dirombak total secara global** agar memiliki desain **Glassmorphism** semi-transparan yang berpadu serasi dengan tema pendaran ambient mengambang dari versi mobile:
 
-### Backend Setup
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/web_landing.png" alt="Landing Page Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>🌐 Landing Page (Glassmorphic Cards)</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/web_login.png" alt="Portal Login Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>🔑 Portal Login Kaca Premium</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/web_song_detail.png" alt="Detail Lagu Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>💬 Detail Lagu & Area Komentar</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/web_active_playback.png" alt="Pemutar Musik Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
+      <b>🎶 Pemutar Musik Aktif (WAV High-Res)</b>
+    </td>
+  </tr>
+</table>
 
-1.  **Prerequisites**:
-    *   PHP >= 8.2
-    *   Composer
-    *   Node.js & npm
-    *   A database server (e.g., MySQL, MariaDB).
+---
 
-2.  **Clone the Repository**:
+## 📂 Struktur Repositori
+
+Proyek ini dibagi menjadi dua bagian utama:
+*   `backend/` — Aplikasi backend berbasis Laravel 12 yang bertindak sebagai Web Server dan REST API untuk aplikasi mobile. Menggunakan SQLite untuk kenyamanan pengembangan lokal.
+*   `ukm_band_mobile/` — Aplikasi musik mobile berbasis Flutter yang mengonsumsi REST API backend dan menggunakan state management Provider.
+
+---
+
+## 🔑 Kredensial Akun Default (Uji Coba)
+
+Gunakan kredensial berikut untuk melakukan login dan menguji semua fitur platform:
+
+| Peran (Role) | Email Pengguna | Kata Sandi (Password) | Keterangan Akses |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@ukmband.telkom` | `admin123` | Akses penuh dashboard admin web portal (Ditolak pada aplikasi mobile) |
+| **User Demo** | `user@example.com` | `password` | Akses streaming lagu, playlist, dan komentar di web maupun aplikasi mobile |
+
+---
+
+## 🛠️ Panduan Instalasi & Pengaktifan Lokal
+
+### 1. Web Portal & REST API (Laravel)
+
+#### Persyaratan Sistem
+*   PHP >= 8.2 (dilengkapi ekstensi pdo_sqlite)
+*   Composer
+*   Node.js & npm
+
+#### Langkah Instalasi
+1.  Masuk ke direktori backend:
     ```bash
-    git clone https://github.com/Ashlxxy/Tubes-APB.git
-    cd Tubes-APB/backend
+    cd backend
     ```
-
-3.  **Install Dependencies**:
+2.  Pasang dependensi PHP dan Javascript:
     ```bash
     composer install
     npm install
     ```
-
-4.  **Environment Setup**:
-    *   Copy the example environment file:
+3.  Salin file konfigurasi lingkungan:
     ```bash
     cp .env.example .env
     php artisan key:generate
     ```
-
-5.  **Database Setup**:
-    *   Create a new database for the project (e.g., `ukm_band`).
-    *   Update your `.env` file with your database credentials (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
-    *   Import the provided SQL dump to get the complete demo data:
-    ```bash
-    mysql -u [your_username] -p [your_database_name] < database/dumps/Database-TubesKel2.sql
+4.  Konfigurasikan database SQLite pada file `.env`:
+    ```env
+    DB_CONNECTION=sqlite
+    # Hapus baris DB_DATABASE, DB_USERNAME, DB_PASSWORD bawaan lainnya
     ```
-    *   Alternatively, you can run migrations and seeders (this may provide different data than the SQL dump):
+5.  Jalankan migrasi database beserta data awal (seeder) yang mencakup data lagu beresolusi tinggi (WAV) asli dari mobile:
     ```bash
-    php artisan migrate --seed
+    php artisan migrate:fresh --seed
     ```
-    
-6.  **Storage Link**:
+6.  Hubungkan direktori penyimpanan media:
     ```bash
     php artisan storage:link
     ```
-
-7.  **Build Assets and Run Server**:
+7.  Kompilasi aset front-end dan jalankan server lokal:
     ```bash
     npm run build
     php artisan serve
     ```
-    The API will be available at `http://127.0.0.1:8000/api`.
+    *Portal Web akan aktif pada alamat `http://127.0.0.1:8000` dan REST API pada `http://127.0.0.1:8000/api`.*
 
-> **Note:** If you experience large file upload errors, run the server with:
+> **Tips:** Apabila pemutaran lagu WAV berukuran besar mengalami kendala limit memori, jalankan PHP server dengan parameter tambahan berikut:
 > `php -d upload_max_filesize=100M -d post_max_size=100M -S 127.0.0.1:8000 -t public`
-
-### Demo Accounts
-
-| Role       | Email                 | Password |
-| :--------- | :-------------------- | :------- |
-| **Admin**  | `admin@ukmband.telkom`| `admin123` |
-| **User**   | `user@example.com`    | `password` |
 
 ---
 
-## 2. Mobile Application (Flutter)
+### 2. Aplikasi Mobile (Flutter)
 
-A companion mobile application built with Flutter that allows users to listen to music from the UKM Band platform on the go.
+#### Persyaratan Sistem
+*   Flutter SDK (versi terbaru disarankan)
+*   Android Studio / VS Code dengan plugin Flutter terpasang
+*   Emulator Android atau perangkat fisik untuk pengujian
 
-### Features
-
-*   **Home Screen**: Displays recently added songs and playlists.
-*   **Search and Library**: Placeholder screens for future search and library management functionality.
-*   **Integrated Audio Player**: A mini-player and a provider-based audio system using the `audioplayers` package to stream music.
-
-### Tech Stack
-
-*   **Framework**: Flutter
-*   **State Management**: Provider
-*   **Dependencies**: `http`, `audioplayers`, `google_fonts`
-
-### Mobile Application Setup
-
-1.  **Prerequisites**:
-    *   Flutter SDK
-    *   An editor with the Flutter plugin (e.g., VS Code, Android Studio).
-    *   An Android/iOS emulator or a physical device.
-
-2.  **Navigate to Directory**:
+#### Langkah Instalasi
+1.  Masuk ke direktori aplikasi mobile:
     ```bash
-    cd Tubes-APB/ukm_band_mobile
+    cd ukm_band_mobile
     ```
-
-3.  **Install Dependencies**:
+2.  Ambil dependensi proyek:
     ```bash
     flutter pub get
     ```
-
-4.  **Configure API Endpoint**:
-    *   The current API endpoint is hardcoded for the Android emulator (`http://10.0.2.2:8000`).
-    *   Open `lib/services/api_service.dart`.
-    *   Change the `baseUrl` to point to your running Laravel backend's local IP address if you are running on a physical device.
-
-5.  **Run the Application**:
+3.  Sesuaikan alamat REST API backend:
+    *   Buka file `lib/services/api_service.dart`.
+    *   Untuk pengujian emulator Android standar, endpoint default adalah `http://10.0.2.2:8000`.
+    *   Jika menggunakan perangkat fisik, ubah `baseUrl` menjadi IP lokal komputer server Anda (contoh: `http://192.168.1.10:8000`).
+4.  Jalankan aplikasi pada perangkat pengujian:
     ```bash
     flutter run
     ```
+
 ---
 
-## Database Class Diagram
+## 📊 Diagram Relasi Database (Class Diagram)
 
-<details>
-<summary>Click to view Class Diagram</summary>
+Berikut adalah rancangan hubungan tabel basis data yang mendukung seluruh fitur terintegrasi di dalam platform UKM Band:
 
 ```mermaid
 classDiagram
@@ -205,18 +230,19 @@ classDiagram
         +String message
     }
 
-    User "1" --> "*" Playlist : creates
-    User "1" --> "*" History : records
-    User "*" --> "*" Song : likes
-    User "1" --> "*" Comment : writes
-    User "1" --> "*" Feedback : creates
+    User "1" --> "*" Playlist : membuat
+    User "1" --> "*" History : merekam_aktivitas
+    User "*" --> "*" Song : menyukai
+    User "1" --> "*" Comment : menulis
+    User "1" --> "*" Feedback : mengirim
     
-    Playlist "*" --> "*" Song : contains
+    Playlist "*" --> "*" Song : berisi
     
-    Song "1" --> "*" History : has
-    Song "1" --> "*" Comment : has
+    Song "1" --> "*" History : memiliki
+    Song "1" --> "*" Comment : memiliki
     
-    Comment "1" --> "*" Comment : is reply to
+    Comment "1" --> "*" Comment : merupakan_balasan_dari
 ```
 
-</details>
+---
+Dibuat dengan penuh dedikasi oleh **Kelompok 2 WebPro (Tubes-APB)**. Selamat mendengarkan karya musik terbaik anak bangsa! 🎧🔥

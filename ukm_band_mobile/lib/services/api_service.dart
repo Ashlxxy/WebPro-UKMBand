@@ -635,6 +635,14 @@ class ApiService {
     }
 
     final appUser = AppUser.fromJson(matched);
+
+    if (appUser.role == 'admin') {
+      throw ApiException(
+        'Akses ditolak. Admin hanya dapat login melalui website.',
+        statusCode: 403,
+      );
+    }
+
     final token = _localTokenFor(appUser.id);
     _token = token;
     return AuthResult(token: token, user: appUser);

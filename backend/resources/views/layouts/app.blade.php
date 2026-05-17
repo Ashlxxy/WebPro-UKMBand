@@ -33,9 +33,16 @@
   </style>
   @stack('styles')
 </head>
-<body class="bg-dark-950 text-white d-flex flex-column min-vh-100" style="padding-top: 76px;">
+<body class="bg-dark-950 text-white d-flex flex-column min-vh-100" style="padding-top: 76px; position: relative; overflow-x: hidden;">
 
-  <div id="navbar-wrapper">
+  <!-- Glowing Background Blobs -->
+  <div class="bg-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+  </div>
+
+  <div id="navbar-wrapper" style="position: relative; z-index: 100;">
     @include('layouts.navbar')
   </div>
 

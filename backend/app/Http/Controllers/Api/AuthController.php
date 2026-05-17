@@ -52,6 +52,13 @@ class AuthController extends Controller
             ]);
         }
 
+        if ($user->role === 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akses ditolak. Admin hanya dapat login melalui website.',
+            ], 403);
+        }
+
         $token = $user->createToken('mobile-app')->plainTextToken;
 
         return response()->json([
