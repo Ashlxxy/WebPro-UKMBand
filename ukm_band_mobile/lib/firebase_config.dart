@@ -1,0 +1,53 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+
+class FirebaseConfig {
+  static const bool enabled = bool.fromEnvironment(
+    'USE_FIREBASE',
+    defaultValue: false,
+  );
+
+  static const String apiKey = String.fromEnvironment('FIREBASE_API_KEY');
+  static const String appId = String.fromEnvironment('FIREBASE_APP_ID');
+  static const String messagingSenderId = String.fromEnvironment(
+    'FIREBASE_MESSAGING_SENDER_ID',
+  );
+  static const String projectId = String.fromEnvironment('FIREBASE_PROJECT_ID');
+  static const String authDomain = String.fromEnvironment(
+    'FIREBASE_AUTH_DOMAIN',
+  );
+  static const String storageBucket = String.fromEnvironment(
+    'FIREBASE_STORAGE_BUCKET',
+  );
+  static const String iosBundleId = String.fromEnvironment(
+    'FIREBASE_IOS_BUNDLE_ID',
+  );
+
+  static bool get isConfigured =>
+      apiKey.isNotEmpty &&
+      appId.isNotEmpty &&
+      messagingSenderId.isNotEmpty &&
+      projectId.isNotEmpty;
+
+  static FirebaseOptions get options {
+    if (!isConfigured) {
+      throw StateError(
+        'Firebase belum dikonfigurasi. Jalankan app dengan '
+        '--dart-define=FIREBASE_API_KEY=... '
+        '--dart-define=FIREBASE_APP_ID=... '
+        '--dart-define=FIREBASE_MESSAGING_SENDER_ID=... '
+        '--dart-define=FIREBASE_PROJECT_ID=...',
+      );
+    }
+
+    return FirebaseOptions(
+      apiKey: apiKey,
+      appId: appId,
+      messagingSenderId: messagingSenderId,
+      projectId: projectId,
+      authDomain: kIsWeb && authDomain.isNotEmpty ? authDomain : null,
+      storageBucket: storageBucket.isNotEmpty ? storageBucket : null,
+      iosBundleId: iosBundleId.isNotEmpty ? iosBundleId : null,
+    );
+  }
+}

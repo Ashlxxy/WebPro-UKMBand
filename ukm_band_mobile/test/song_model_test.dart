@@ -34,10 +34,10 @@ void main() {
     for (final path in [
       'assets/songs/Prisoner.wav',
       'assets/songs/Strangled.wav',
-      'assets/songs/NewWorld.wav',
-      'assets/songs/Langit Kelabu.wav',
+      'assets/songs/The Overtrain.wav',
+      'assets/songs/The Harper.wav',
       'assets/songs/coral_form.wav',
-      'assets/songs/revoir.wav',
+      'assets/songs/Elisya.wav',
       'assets/songs/Lust.wav',
     ]) {
       final bytes = File(path).readAsBytesSync();
