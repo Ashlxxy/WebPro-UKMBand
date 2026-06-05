@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
+import 'firebase_options.dart';
+
 class FirebaseConfig {
   static const bool enabled = bool.fromEnvironment(
     'USE_FIREBASE',
@@ -31,13 +33,7 @@ class FirebaseConfig {
 
   static FirebaseOptions get options {
     if (!isConfigured) {
-      throw StateError(
-        'Firebase belum dikonfigurasi. Jalankan app dengan '
-        '--dart-define=FIREBASE_API_KEY=... '
-        '--dart-define=FIREBASE_APP_ID=... '
-        '--dart-define=FIREBASE_MESSAGING_SENDER_ID=... '
-        '--dart-define=FIREBASE_PROJECT_ID=...',
-      );
+      return DefaultFirebaseOptions.currentPlatform;
     }
 
     return FirebaseOptions(

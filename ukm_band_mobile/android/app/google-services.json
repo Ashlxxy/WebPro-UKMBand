@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "225306913053",
+    "project_id": "tubes-apb-cdacd",
+    "storage_bucket": "tubes-apb-cdacd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225306913053:android:513b2cce2b3637a48519f4",
+        "android_client_info": {
+          "package_name": "com.example.ukm_band_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjQWUD4rGYU7XQLLw4bKdN4wVDpl3Y_yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
