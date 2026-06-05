@@ -1,0 +1,60 @@
+<svg width="1200" height="680" viewBox="0 0 1200 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="680" rx="28" fill="#070B12"/>
+  <rect x="32" y="32" width="1136" height="616" rx="24" fill="#101722" stroke="#2C394D" stroke-width="2"/>
+  <text x="64" y="88" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">Alur Firebase pada Aplikasi Mobile UKM Band</text>
+  <text x="64" y="122" fill="#94A3B8" font-family="Segoe UI, Arial, sans-serif" font-size="18">Mode aktif saat menjalankan Flutter dengan --dart-define=USE_FIREBASE=true</text>
+
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#162033"/>
+      <stop offset="1" stop-color="#0D1320"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#EF4444"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2L10 6L2 10" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="64" y="174" width="230" height="140" rx="18" fill="url(#card)" stroke="#334155"/>
+  <text x="90" y="217" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Flutter UI</text>
+  <text x="90" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Login, register, home,</text>
+  <text x="90" y="278" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">playlist, komentar, admin</text>
+
+  <rect x="412" y="174" width="230" height="140" rx="18" fill="url(#card)" stroke="#334155"/>
+  <text x="438" y="217" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">ApiService</text>
+  <text x="438" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Router backend:</text>
+  <text x="438" y="278" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">local, Laravel API, Firebase</text>
+
+  <rect x="760" y="174" width="300" height="140" rx="18" fill="url(#card)" stroke="#334155"/>
+  <text x="786" y="217" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">FirebaseBackendService</text>
+  <text x="786" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Operasi Auth, Firestore,</text>
+  <text x="786" y="278" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">dan Storage</text>
+
+  <line x1="294" y1="244" x2="402" y2="244" stroke="#F97316" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="642" y1="244" x2="750" y2="244" stroke="#F97316" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="92" y="412" width="235" height="118" rx="18" fill="#111827" stroke="#F97316"/>
+  <text x="118" y="450" fill="#FDBA74" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Firebase Auth</text>
+  <text x="118" y="484" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">register, login, logout,</text>
+  <text x="118" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">session user</text>
+
+  <rect x="412" y="412" width="270" height="118" rx="18" fill="#111827" stroke="#22C55E"/>
+  <text x="438" y="450" fill="#86EFAC" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Cloud Firestore</text>
+  <text x="438" y="484" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">users, songs, playlists,</text>
+  <text x="438" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">histories, likes, comments</text>
+
+  <rect x="760" y="412" width="260" height="118" rx="18" fill="#111827" stroke="#38BDF8"/>
+  <text x="786" y="450" fill="#7DD3FC" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Firebase Storage</text>
+  <text x="786" y="484" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">avatar, cover lagu,</text>
+  <text x="786" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">audio upload</text>
+
+  <path d="M910 314C910 350 210 350 210 402" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M910 314C910 366 547 366 547 402" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M910 314C910 360 890 376 890 402" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="64" y="580" width="1072" height="42" rx="12" fill="#0B1220" stroke="#1E293B"/>
+  <text x="86" y="607" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Fallback tetap tersedia: tanpa USE_FIREBASE, aplikasi memakai mode lokal SharedPreferences atau Laravel REST API lama.</text>
+</svg>

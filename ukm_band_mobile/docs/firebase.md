@@ -10,6 +10,27 @@ dan Laravel API. Mode Firebase aktif hanya jika app dijalankan dengan
 - Cloud Firestore: data user, lagu, playlist, riwayat putar, like, dan komentar.
 - Firebase Storage: upload avatar profil, cover lagu, dan file audio dari admin.
 
+## Bentuk Source Implementasi
+
+Source Firebase dibuat terpisah supaya backend Laravel dan mode lokal tetap
+aman. File yang berhubungan langsung dengan Firebase:
+
+- `lib/firebase_config.dart`: membaca konfigurasi Firebase dari `dart-define`.
+- `lib/main.dart`: menjalankan `Firebase.initializeApp()` hanya saat
+  `USE_FIREBASE=true`.
+- `lib/services/api_service.dart`: memilih backend aktif, antara mode lokal,
+  Laravel REST API, atau Firebase.
+- `lib/services/firebase_backend_service.dart`: operasi Firebase Auth,
+  Firestore, dan Storage.
+- `pubspec.yaml`: dependency `firebase_core`, `firebase_auth`,
+  `cloud_firestore`, `firebase_storage`, dan `cross_file`.
+
+Visual source dan struktur Firebase juga tersedia di:
+
+- `docs/firebase/source_map.svg`
+- `docs/firebase/mobile_firebase_flow.svg`
+- `docs/firebase/firestore_structure.svg`
+
 ## Menjalankan dengan Firebase
 
 Isi nilai Firebase dari project Firebase kamu:
