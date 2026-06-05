@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/app_user.dart';
 import '../models/history_entry.dart';
@@ -11,17 +9,12 @@ import '../models/song_comment.dart';
 import 'api_service.dart';
 
 class FirebaseBackendService {
-  FirebaseBackendService({
-    FirebaseAuth? auth,
-    FirebaseFirestore? firestore,
-    FirebaseStorage? storage,
-  }) : _auth = auth ?? FirebaseAuth.instance,
-       _firestore = firestore ?? FirebaseFirestore.instance,
-       _storage = storage ?? FirebaseStorage.instance;
+  FirebaseBackendService({FirebaseAuth? auth, FirebaseFirestore? firestore})
+    : _auth = auth ?? FirebaseAuth.instance,
+      _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _storage;
 
   static const List<Map<String, dynamic>> _seedSongs = [
     {
@@ -188,7 +181,6 @@ class FirebaseBackendService {
     String? avatarPath,
   }) async {
     final user = _currentUser;
-    String? avatarUrl;
 
     try {
       if (email.trim() != user.email) {
@@ -196,14 +188,6 @@ class FirebaseBackendService {
       }
       if (name.trim() != user.displayName) {
         await user.updateDisplayName(name.trim());
-      }
-      if (avatarPath != null && avatarPath.isNotEmpty) {
-        avatarUrl = await _uploadFile(
-          path: avatarPath,
-          storagePath:
-              'avatars/${user.uid}/${DateTime.now().millisecondsSinceEpoch}',
-        );
-        await user.updatePhotoURL(avatarUrl);
       }
 
       final doc = _users.doc(user.uid);
@@ -214,9 +198,6 @@ class FirebaseBackendService {
         'email': email.trim(),
         'updated_at': FieldValue.serverTimestamp(),
       };
-      if (avatarUrl != null) {
-        updates['avatar_url'] = avatarUrl;
-      }
       await doc.set(updates, SetOptions(merge: true));
 
       return _userFromDoc(await doc.get());
@@ -528,8 +509,6 @@ class FirebaseBackendService {
     String? filePath,
   }) async {
     final id = _newIntId();
-    final coverUrl = await _uploadOptionalFile(coverPath, 'song-covers/$id');
-    final audioUrl = await _uploadOptionalFile(filePath, 'song-audio/$id');
     final payload = {
       'id': id,
       'title': title.trim(),
@@ -543,12 +522,6 @@ class FirebaseBackendService {
       'created_at': FieldValue.serverTimestamp(),
       'updated_at': FieldValue.serverTimestamp(),
     };
-    if (coverUrl != null) {
-      payload['cover_url'] = coverUrl;
-    }
-    if (audioUrl != null) {
-      payload['audio_url'] = audioUrl;
-    }
     await _songs.doc(id.toString()).set(payload);
     return Song.fromJson(_normalized(payload));
   }
@@ -561,8 +534,6 @@ class FirebaseBackendService {
     String? coverPath,
     String? filePath,
   }) async {
-    final coverUrl = await _uploadOptionalFile(coverPath, 'song-covers/$id');
-    final audioUrl = await _uploadOptionalFile(filePath, 'song-audio/$id');
     final updates = <String, dynamic>{
       'updated_at': FieldValue.serverTimestamp(),
     };
@@ -571,8 +542,6 @@ class FirebaseBackendService {
     if (description != null) updates['description'] = description.trim();
     if (coverPath != null) updates['cover_path'] = coverPath;
     if (filePath != null) updates['file_path'] = filePath;
-    if (coverUrl != null) updates['cover_url'] = coverUrl;
-    if (audioUrl != null) updates['audio_url'] = audioUrl;
     await _songs.doc(id.toString()).update(updates);
     return _songFromDoc(await _songs.doc(id.toString()).get());
   }
@@ -686,27 +655,6 @@ class FirebaseBackendService {
       });
     }
     await batch.commit();
-  }
-
-  Future<String?> _uploadOptionalFile(String? path, String storagePath) async {
-    if (path == null || path.isEmpty || path.startsWith('assets/')) {
-      return null;
-    }
-    return _uploadFile(
-      path: path,
-      storagePath: '$storagePath/${DateTime.now().millisecondsSinceEpoch}',
-    );
-  }
-
-  Future<String> _uploadFile({
-    required String path,
-    required String storagePath,
-  }) async {
-    final file = XFile(path);
-    final extension = path.contains('.') ? path.split('.').last : 'bin';
-    final ref = _storage.ref('$storagePath.$extension');
-    await ref.putData(await file.readAsBytes());
-    return ref.getDownloadURL();
   }
 
   void _assertCommentOwner(Map<String, dynamic> data) {

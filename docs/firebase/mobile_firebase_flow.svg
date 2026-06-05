@@ -30,8 +30,8 @@
 
   <rect x="760" y="174" width="300" height="140" rx="18" fill="url(#card)" stroke="#334155"/>
   <text x="786" y="217" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">FirebaseBackendService</text>
-  <text x="786" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Operasi Auth, Firestore,</text>
-  <text x="786" y="278" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">dan Storage</text>
+  <text x="786" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Operasi Auth dan Firestore</text>
+  <text x="786" y="278" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">tanpa Firebase Storage</text>
 
   <line x1="294" y1="244" x2="402" y2="244" stroke="#F97316" stroke-width="3" marker-end="url(#arrow)"/>
   <line x1="642" y1="244" x2="750" y2="244" stroke="#F97316" stroke-width="3" marker-end="url(#arrow)"/>
@@ -47,9 +47,9 @@
   <text x="438" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">histories, likes, comments</text>
 
   <rect x="760" y="412" width="260" height="118" rx="18" fill="#111827" stroke="#38BDF8"/>
-  <text x="786" y="450" fill="#7DD3FC" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Firebase Storage</text>
-  <text x="786" y="484" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">avatar, cover lagu,</text>
-  <text x="786" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">audio upload</text>
+  <text x="786" y="450" fill="#7DD3FC" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Asset Lokal</text>
+  <text x="786" y="484" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">cover_path dan file_path</text>
+  <text x="786" y="508" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="15">disimpan di Firestore</text>
 
   <path d="M910 314C910 350 210 350 210 402" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
   <path d="M910 314C910 366 547 366 547 402" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>

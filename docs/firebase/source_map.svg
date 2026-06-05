@@ -2,7 +2,7 @@
   <rect width="1200" height="700" rx="28" fill="#060A12"/>
   <rect x="34" y="34" width="1132" height="632" rx="24" fill="#111827" stroke="#293548" stroke-width="2"/>
   <text x="64" y="90" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">Peta Source Implementasi Firebase</text>
-  <text x="64" y="124" fill="#94A3B8" font-family="Segoe UI, Arial, sans-serif" font-size="18">File utama yang membuat Flutter mobile terhubung ke Firebase Auth, Firestore, dan Storage</text>
+  <text x="64" y="124" fill="#94A3B8" font-family="Segoe UI, Arial, sans-serif" font-size="18">File utama yang membuat Flutter mobile terhubung ke Firebase Auth dan Firestore tanpa Firebase Storage</text>
 
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -30,7 +30,7 @@
   <text x="918" y="218" fill="#C4B5FD" font-family="Consolas, monospace" font-size="18" font-weight="700">firebase_backend_service.dart</text>
   <text x="918" y="252" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">Register, login, profile, songs,</text>
   <text x="918" y="276" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">playlist, history, likes,</text>
-  <text x="918" y="300" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">comments, upload storage</text>
+  <text x="918" y="300" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="16">comments, path cover/audio</text>
 
   <rect x="892" y="438" width="322" height="124" rx="18" fill="#0B1220" stroke="#FACC15"/>
   <text x="918" y="478" fill="#FDE68A" font-family="Consolas, monospace" font-size="19" font-weight="700">docs/firebase.md</text>

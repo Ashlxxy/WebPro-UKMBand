@@ -8,7 +8,7 @@ dan Laravel API. Mode Firebase aktif hanya jika app dijalankan dengan
 
 - Firebase Auth: login, register, logout, dan sesi user.
 - Cloud Firestore: data user, lagu, playlist, riwayat putar, like, dan komentar.
-- Firebase Storage: upload avatar profil, cover lagu, dan file audio dari admin.
+- Firebase Storage tidak dipakai karena layanan tersebut berbayar.
 
 ## Bentuk Source Implementasi
 
@@ -20,10 +20,10 @@ aman. File yang berhubungan langsung dengan Firebase:
   `USE_FIREBASE=true`.
 - `lib/services/api_service.dart`: memilih backend aktif, antara mode lokal,
   Laravel REST API, atau Firebase.
-- `lib/services/firebase_backend_service.dart`: operasi Firebase Auth,
-  Firestore, dan Storage.
+- `lib/services/firebase_backend_service.dart`: operasi Firebase Auth dan
+  Firestore.
 - `pubspec.yaml`: dependency `firebase_core`, `firebase_auth`,
-  `cloud_firestore`, `firebase_storage`, dan `cross_file`.
+  dan `cloud_firestore`.
 
 Visual source dan struktur Firebase juga tersedia di:
 
@@ -41,8 +41,7 @@ flutter run ^
   --dart-define=FIREBASE_API_KEY=your-api-key ^
   --dart-define=FIREBASE_APP_ID=your-app-id ^
   --dart-define=FIREBASE_MESSAGING_SENDER_ID=your-sender-id ^
-  --dart-define=FIREBASE_PROJECT_ID=your-project-id ^
-  --dart-define=FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+  --dart-define=FIREBASE_PROJECT_ID=your-project-id
 ```
 
 Kalau `USE_FIREBASE` tidak diaktifkan, app tetap memakai mode lama:
@@ -61,7 +60,6 @@ Data profil user yang terhubung ke Firebase Auth.
   "name": "Nama User",
   "email": "user@email.com",
   "role": "user",
-  "avatar_url": "https://...",
   "created_at": "serverTimestamp",
   "updated_at": "serverTimestamp"
 }
@@ -79,8 +77,6 @@ Data lagu yang tampil di home, search, detail, admin, like, history, dan playlis
   "description": "Deskripsi lagu",
   "cover_path": "assets/img/c5.jpg",
   "file_path": "assets/songs/Prisoner.wav",
-  "cover_url": "https://...",
-  "audio_url": "https://...",
   "plays": 120,
   "likes": 45,
   "comments_count": 0
@@ -164,8 +160,8 @@ Komentar dan reply lagu. Reply memakai `parent_id`.
 6. Playlist menyimpan daftar `song_ids` di `playlists`.
 7. Komentar tersimpan di `comments`, sedangkan jumlah komentar tersimpan di
    `songs.comments_count`.
-8. Upload avatar, cover, dan audio masuk ke Firebase Storage, lalu URL-nya
-   disimpan ke Firestore.
+8. File upload tidak dikirim ke Firebase Storage. Cover dan audio tetap memakai
+   path lokal atau asset path yang disimpan sebagai metadata di Firestore.
 
 ## Catatan Query
 

@@ -9,7 +9,7 @@ Repository ini berisi kode sumber lengkap untuk **UKM Band Music Streaming Platf
 
 ## Firebase Mobile Backend
 
-Aplikasi mobile Flutter sudah memiliki mode backend Firebase yang bisa diaktifkan tanpa menghapus mode lokal dan Laravel REST API. Firebase dipakai untuk autentikasi user, data musik, playlist, riwayat putar, like, komentar, serta upload avatar, cover lagu, dan audio.
+Aplikasi mobile Flutter sudah memiliki mode backend Firebase yang bisa diaktifkan tanpa menghapus mode lokal dan Laravel REST API. Firebase dipakai untuk autentikasi user, data musik, playlist, riwayat putar, like, dan komentar. Firebase Storage tidak dipakai karena layanan tersebut berbayar.
 
 <table align="center">
   <tr>
@@ -37,7 +37,7 @@ Aplikasi mobile Flutter sudah memiliki mode backend Firebase yang bisa diaktifka
 | `ukm_band_mobile/lib/firebase_config.dart` | Membaca konfigurasi Firebase dari `--dart-define`. |
 | `ukm_band_mobile/lib/main.dart` | Inisialisasi Firebase saat `USE_FIREBASE=true`. |
 | `ukm_band_mobile/lib/services/api_service.dart` | Memilih backend aktif: lokal, Laravel REST API, atau Firebase. |
-| `ukm_band_mobile/lib/services/firebase_backend_service.dart` | Menangani Firebase Auth, Cloud Firestore, dan Firebase Storage. |
+| `ukm_band_mobile/lib/services/firebase_backend_service.dart` | Menangani Firebase Auth dan Cloud Firestore. |
 | `ukm_band_mobile/docs/firebase.md` | Dokumentasi alur data, struktur collection, dan cara menjalankan mode Firebase. |
 
 ### Data yang Terhubung ke Firebase
@@ -45,13 +45,12 @@ Aplikasi mobile Flutter sudah memiliki mode backend Firebase yang bisa diaktifka
 | Firebase | Data Aplikasi Mobile |
 | :--- | :--- |
 | Firebase Auth | Register, login, logout, dan session user. |
-| Cloud Firestore `users` | Profil user, role, email, dan avatar URL. |
-| Cloud Firestore `songs` | Lagu, cover, audio URL, plays, likes, dan jumlah komentar. |
+| Cloud Firestore `users` | Profil user, role, dan email. |
+| Cloud Firestore `songs` | Lagu, cover path, audio path, plays, likes, dan jumlah komentar. |
 | Cloud Firestore `playlists` | Playlist user dan daftar `song_ids`. |
 | Cloud Firestore `histories` | Riwayat lagu yang diputar user. |
 | Cloud Firestore `likes` | Status like per user per lagu. |
 | Cloud Firestore `comments` | Komentar dan reply pada lagu. |
-| Firebase Storage | Avatar profil, cover lagu, dan file audio upload. |
 
 Menjalankan mobile app dengan Firebase:
 
@@ -62,8 +61,7 @@ flutter run ^
   --dart-define=FIREBASE_API_KEY=your-api-key ^
   --dart-define=FIREBASE_APP_ID=your-app-id ^
   --dart-define=FIREBASE_MESSAGING_SENDER_ID=your-sender-id ^
-  --dart-define=FIREBASE_PROJECT_ID=your-project-id ^
-  --dart-define=FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+  --dart-define=FIREBASE_PROJECT_ID=your-project-id
 ```
 
 Dokumentasi lengkap: [`ukm_band_mobile/docs/firebase.md`](ukm_band_mobile/docs/firebase.md)

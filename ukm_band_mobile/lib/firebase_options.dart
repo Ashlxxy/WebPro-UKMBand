@@ -55,7 +55,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '225306913053',
     projectId: 'tubes-apb-cdacd',
     authDomain: 'tubes-apb-cdacd.firebaseapp.com',
-    storageBucket: 'tubes-apb-cdacd.firebasestorage.app',
     measurementId: 'G-BJVQQ1JHRM',
   );
 
@@ -64,6 +63,5 @@ class DefaultFirebaseOptions {
     appId: '1:225306913053:android:513b2cce2b3637a48519f4',
     messagingSenderId: '225306913053',
     projectId: 'tubes-apb-cdacd',
-    storageBucket: 'tubes-apb-cdacd.firebasestorage.app',
   );
 }
