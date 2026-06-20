@@ -118,10 +118,8 @@ class _WelcomeContentWidth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWidePreview = MediaQuery.sizeOf(context).width >= 600;
-
     return Align(
-      alignment: isWidePreview ? Alignment.center : Alignment.centerLeft,
+      alignment: Alignment.center,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: SizedBox(width: double.infinity, child: child),

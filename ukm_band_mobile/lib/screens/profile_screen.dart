@@ -170,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.1),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFB71C1C),
+                      backgroundColor: AppColors.accent,
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

@@ -216,13 +216,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ElevatedButton(
                             onPressed: _isLoading ? null : _saveProfile,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFB71C1C),
+                              backgroundColor: AppColors.accent,
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24),
                               ),
                               elevation: 12,
-                              shadowColor: const Color(0xFFB71C1C).withOpacity(0.5),
+                              shadowColor: AppColors.accent.withOpacity(0.5),
                             ),
                             child: _isLoading
                                 ? const SizedBox(
