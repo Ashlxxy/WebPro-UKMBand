@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_config.dart';
 import 'providers/auth_provider.dart';
 import 'providers/music_provider.dart';
 import 'screens/main_shell.dart';
@@ -10,6 +12,9 @@ import 'providers/audio_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (FirebaseConfig.enabled) {
+    await Firebase.initializeApp(options: FirebaseConfig.options);
+  }
   final apiService = ApiService();
 
   runApp(

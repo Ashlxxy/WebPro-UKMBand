@@ -1,176 +1,264 @@
-# 🎸 UKM Band - Platform Musik Mobile & Backend API Glassmorphism
+# UKM Band - Mobile Music Platform, Laravel API, and Firebase Backend
 
-[![UKM Band Platform](https://img.shields.io/badge/Platform-Flutter%20%7C%20Laravel%2012-red?style=for-the-badge&logo=laravel&logoColor=white)](https://github.com/Ashlxxy/Tubes-Kelompok2-WebPro)
-[![Developer Team](https://img.shields.io/badge/Kelompok-2_WebPro-crimson?style=for-the-badge)](https://github.com/Ashlxxy/Tubes-Kelompok2-WebPro)
+[![UKM Band Platform](https://img.shields.io/badge/Platform-Flutter%20%7C%20Laravel%2012%20%7C%20Firebase-red?style=for-the-badge&logo=flutter&logoColor=white)](https://github.com/Ashlxxy/Tubes-APB)
+[![Developer Team](https://img.shields.io/badge/Kelompok-2_WebPro-crimson?style=for-the-badge)](https://github.com/Ashlxxy/Tubes-APB)
 
-Repository ini berisi kode sumber lengkap untuk **UKM Band Music Streaming Platform** — platform musik digital khusus Unit Kegiatan Mahasiswa (UKM) Band Universitas Telkom. Platform ini terdiri dari **Aplikasi Mobile (Flutter)** bergaya premium dan **Web Portal & REST API (Laravel)** berbasis database SQLite terintegrasi dengan arsitektur modern bertema **Premium Dark Glassmorphism**.
+Repository ini berisi kode sumber lengkap untuk **UKM Band Music Streaming Platform**, platform musik digital khusus Unit Kegiatan Mahasiswa Band Universitas Telkom. Proyek ini terdiri dari aplikasi mobile Flutter, web portal dan REST API Laravel, serta mode backend Firebase untuk aplikasi mobile.
 
 ---
 
-## 📱 TAMPILAN APLIKASI MOBILE (FLUTTER) — PRIORITAS UTAMA
+## Firebase Mobile Backend
 
-Berikut adalah tampilan antarmuka pengguna (UI/UX) pada aplikasi mobile Flutter yang mengadopsi tema **Premium Dark Glassmorphism** dengan pendaran neon merah crimson:
+Aplikasi mobile Flutter sudah memiliki mode backend Firebase yang bisa diaktifkan tanpa menghapus mode lokal dan Laravel REST API. Firebase dipakai untuk autentikasi user, data musik, playlist, riwayat putar, like, dan komentar. Firebase Storage tidak dipakai karena layanan tersebut berbayar.
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/firebase/mobile_firebase_flow.svg" alt="Alur Firebase Mobile" width="100%"/><br/>
+      <b>Alur Mobile ke Firebase</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/firebase/firestore_structure.svg" alt="Struktur Firestore UKM Band" width="100%"/><br/>
+      <b>Contoh Struktur Firestore</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="docs/firebase/source_map.svg" alt="Peta Source Firebase" width="100%"/><br/>
+      <b>Peta Source Implementasi Firebase</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="docs/firebase/firebase_console_collections.svg" alt="Contoh Firebase Console Collections" width="100%"/><br/>
+      <b>Contoh Tampilan Data di Firebase Console</b>
+    </td>
+  </tr>
+</table>
+
+### Status Integrasi Firebase
+
+Data utama aplikasi mobile sudah diarahkan ke Firebase ketika aplikasi dijalankan dengan `--dart-define=USE_FIREBASE=true`.
+
+| Area Data | Status Firebase | Collection / Layanan |
+| :--- | :--- | :--- |
+| Akun dan sesi user | Terintegrasi | Firebase Auth |
+| Profil user mobile | Terintegrasi | Cloud Firestore `users` |
+| Data lagu mobile | Terintegrasi | Cloud Firestore `songs` |
+| Playlist user | Terintegrasi | Cloud Firestore `playlists` |
+| Riwayat lagu diputar | Terintegrasi | Cloud Firestore `histories` |
+| Like lagu | Terintegrasi | Cloud Firestore `likes` |
+| Komentar dan reply | Terintegrasi | Cloud Firestore `comments` |
+| Upload file avatar, cover, audio | Tidak memakai Firebase | Storage sengaja tidak dipakai karena berbayar |
+| Web portal dan backend Laravel | Tidak dipindahkan ke Firebase | Tetap memakai Laravel dan database backend |
+
+Jadi, yang sudah terintegrasi penuh adalah **data aplikasi mobile**. Yang tidak dipindahkan adalah file Storage dan sistem web/backend Laravel.
+
+### Bentuk Source Firebase
+
+| File | Fungsi |
+| :--- | :--- |
+| `ukm_band_mobile/lib/firebase_config.dart` | Membaca konfigurasi Firebase dari `--dart-define`. |
+| `ukm_band_mobile/lib/main.dart` | Inisialisasi Firebase saat `USE_FIREBASE=true`. |
+| `ukm_band_mobile/lib/services/api_service.dart` | Memilih backend aktif: lokal, Laravel REST API, atau Firebase. |
+| `ukm_band_mobile/lib/services/firebase_backend_service.dart` | Menangani Firebase Auth dan Cloud Firestore. |
+| `ukm_band_mobile/docs/firebase.md` | Dokumentasi alur data, struktur collection, dan cara menjalankan mode Firebase. |
+
+Contoh isi `ukm_band_mobile/lib/firebase_options.dart`:
+
+```dart
+class DefaultFirebaseOptions {
+  static FirebaseOptions get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      default:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
+    }
+  }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDKNMYJyrOZiZivmRs5OCTexp-bDV0M-4M',
+    appId: '1:225306913053:web:109741a246a27d648519f4',
+    messagingSenderId: '225306913053',
+    projectId: 'tubes-apb-cdacd',
+    authDomain: 'tubes-apb-cdacd.firebaseapp.com',
+    measurementId: 'G-BJVQQ1JHRM',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBjQWUD4rGYU7XQLLw4bKdN4wVDpl3Y_yw',
+    appId: '1:225306913053:android:513b2cce2b3637a48519f4',
+    messagingSenderId: '225306913053',
+    projectId: 'tubes-apb-cdacd',
+  );
+}
+```
+
+### Data yang Terhubung ke Firebase
+
+| Firebase | Data Aplikasi Mobile |
+| :--- | :--- |
+| Firebase Auth | Register, login, logout, dan session user. |
+| Cloud Firestore `users` | Profil user, role, dan email. |
+| Cloud Firestore `songs` | Lagu, cover path, audio path, plays, likes, dan jumlah komentar. |
+| Cloud Firestore `playlists` | Playlist user dan daftar `song_ids`. |
+| Cloud Firestore `histories` | Riwayat lagu yang diputar user. |
+| Cloud Firestore `likes` | Status like per user per lagu. |
+| Cloud Firestore `comments` | Komentar dan reply pada lagu. |
+
+Menjalankan mobile app dengan Firebase:
+
+```bash
+cd ukm_band_mobile
+flutter run ^
+   --dart-define=USE_FIREBASE=true ^
+   --dart-define=FIREBASE_API_KEY=your-api-key ^
+   --dart-define=FIREBASE_APP_ID=your-app-id ^
+   --dart-define=FIREBASE_MESSAGING_SENDER_ID=your-sender-id ^
+   --dart-define=FIREBASE_PROJECT_ID=your-project-id
+```
+
+Dokumentasi lengkap: [`ukm_band_mobile/docs/firebase.md`](ukm_band_mobile/docs/firebase.md)
+
+---
+
+## Tampilan Aplikasi Mobile Flutter
+
+Berikut tampilan antarmuka aplikasi mobile Flutter dengan tema premium dark glassmorphism dan aksen crimson.
 
 <table align="center">
   <tr>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_song_detail.png" alt="Detail Lagu Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>🎵 Detail Lagu & Pemutar</b>
+      <img src="docs/screenshots/mobile_song_detail.png" alt="Detail Lagu Mobile" width="100%"/><br/>
+      <b>Detail Lagu dan Pemutar</b>
     </td>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_profile.png" alt="Profil Saya Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>👤 Profil Saya</b>
+      <img src="docs/screenshots/mobile_profile.png" alt="Profil Saya Mobile" width="100%"/><br/>
+      <b>Profil Saya</b>
     </td>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_edit_profile.png" alt="Edit Profil Mobile" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>⚙️ Edit Profil</b>
+      <img src="docs/screenshots/mobile_edit_profile.png" alt="Edit Profil Mobile" width="100%"/><br/>
+      <b>Edit Profil</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_song_card.png" alt="Widget Lagu" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>🖼️ Widget Kartu Lagu</b>
+      <img src="docs/screenshots/mobile_song_card.png" alt="Widget Lagu" width="100%"/><br/>
+      <b>Widget Kartu Lagu</b>
     </td>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_comments.png" alt="Input Komentar" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>💬 Kolom Komentar</b>
+      <img src="docs/screenshots/mobile_comments.png" alt="Input Komentar" width="100%"/><br/>
+      <b>Kolom Komentar</b>
     </td>
     <td align="center" width="33%">
-      <img src="docs/screenshots/mobile_about.png" alt="Tentang Aplikasi" width="100%" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>ℹ️ Tentang Aplikasi</b>
+      <img src="docs/screenshots/mobile_about.png" alt="Tentang Aplikasi" width="100%"/><br/>
+      <b>Tentang Aplikasi</b>
     </td>
   </tr>
 </table>
 
 ---
 
-## 🌐 TAMPILAN PORTAL WEB (LARAVEL OVERHAUL)
+## Tampilan Portal Web Laravel
 
-Website UKM Band telah **dirombak total secara global** agar memiliki desain **Glassmorphism** semi-transparan yang berpadu serasi dengan tema pendaran ambient mengambang dari versi mobile:
+Website UKM Band memakai desain glassmorphism yang serasi dengan tema aplikasi mobile.
 
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <img src="docs/screenshots/web_landing.png" alt="Landing Page Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>🌐 Landing Page (Glassmorphic Cards)</b>
+      <img src="docs/screenshots/web_landing.png" alt="Landing Page Web" width="100%"/><br/>
+      <b>Landing Page</b>
     </td>
     <td align="center" width="50%">
-      <img src="docs/screenshots/web_login.png" alt="Portal Login Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>🔑 Portal Login Kaca Premium</b>
+      <img src="docs/screenshots/web_login.png" alt="Portal Login Web" width="100%"/><br/>
+      <b>Portal Login</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/screenshots/web_song_detail.png" alt="Detail Lagu Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>💬 Detail Lagu & Area Komentar</b>
+      <img src="docs/screenshots/web_song_detail.png" alt="Detail Lagu Web" width="100%"/><br/>
+      <b>Detail Lagu dan Komentar</b>
     </td>
     <td align="center" width="50%">
-      <img src="docs/screenshots/web_active_playback.png" alt="Pemutar Musik Web" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);"/><br/>
-      <b>🎶 Pemutar Musik Aktif (WAV High-Res)</b>
+      <img src="docs/screenshots/web_active_playback.png" alt="Pemutar Musik Web" width="100%"/><br/>
+      <b>Pemutar Musik Aktif</b>
     </td>
   </tr>
 </table>
 
 ---
 
-## 📂 Struktur Repositori
+## Struktur Repositori
 
-Proyek ini dibagi menjadi dua bagian utama:
-*   `backend/` — Aplikasi backend berbasis Laravel 12 yang bertindak sebagai Web Server dan REST API untuk aplikasi mobile. Menggunakan SQLite untuk kenyamanan pengembangan lokal.
-*   `ukm_band_mobile/` — Aplikasi musik mobile berbasis Flutter yang mengonsumsi REST API backend dan menggunakan state management Provider.
+- `backend/`: aplikasi backend Laravel 12 sebagai web portal dan REST API.
+- `ukm_band_mobile/`: aplikasi mobile Flutter dengan Provider state management.
+- `docs/screenshots/`: screenshot tampilan mobile dan web.
+- `docs/firebase/`: visual contoh alur Firebase, struktur Firestore, dan peta source Firebase.
 
 ---
 
-## 🔑 Kredensial Akun Default (Uji Coba)
+## Kredensial Akun Default
 
-Gunakan kredensial berikut untuk melakukan login dan menguji semua fitur platform:
-
-| Peran (Role) | Email Pengguna | Kata Sandi (Password) | Keterangan Akses |
+| Peran | Email | Password | Keterangan |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@ukmband.telkom` | `admin123` | Akses penuh dashboard admin web portal (Ditolak pada aplikasi mobile) |
-| **User Demo** | `user@example.com` | `password` | Akses streaming lagu, playlist, dan komentar di web maupun aplikasi mobile |
+| Administrator | `admin@ukmband.telkom` | `admin123` | Akses penuh dashboard admin web portal, ditolak pada aplikasi mobile. |
+| User Demo | `user@example.com` | `password` | Akses streaming lagu, playlist, dan komentar. |
 
 ---
 
-## 🛠️ Panduan Instalasi & Pengaktifan Lokal
+## Instalasi Lokal
 
-### 1. Web Portal & REST API (Laravel)
+### Web Portal dan REST API Laravel
 
-#### Persyaratan Sistem
-*   PHP >= 8.2 (dilengkapi ekstensi pdo_sqlite)
-*   Composer
-*   Node.js & npm
+Persyaratan:
 
-#### Langkah Instalasi
-1.  Masuk ke direktori backend:
-    ```bash
-    cd backend
-    ```
-2.  Pasang dependensi PHP dan Javascript:
-    ```bash
-    composer install
-    npm install
-    ```
-3.  Salin file konfigurasi lingkungan:
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
-4.  Konfigurasikan database SQLite pada file `.env`:
-    ```env
-    DB_CONNECTION=sqlite
-    # Hapus baris DB_DATABASE, DB_USERNAME, DB_PASSWORD bawaan lainnya
-    ```
-5.  Jalankan migrasi database beserta data awal (seeder) yang mencakup data lagu beresolusi tinggi (WAV) asli dari mobile:
-    ```bash
-    php artisan migrate:fresh --seed
-    ```
-6.  Hubungkan direktori penyimpanan media:
-    ```bash
-    php artisan storage:link
-    ```
-7.  Kompilasi aset front-end dan jalankan server lokal:
-    ```bash
-    npm run build
-    php artisan serve
-    ```
-    *Portal Web akan aktif pada alamat `http://127.0.0.1:8000` dan REST API pada `http://127.0.0.1:8000/api`.*
+- PHP >= 8.2 dengan ekstensi `pdo_sqlite`
+- Composer
+- Node.js dan npm
 
-> **Tips:** Apabila pemutaran lagu WAV berukuran besar mengalami kendala limit memori, jalankan PHP server dengan parameter tambahan berikut:
-> `php -d upload_max_filesize=100M -d post_max_size=100M -S 127.0.0.1:8000 -t public`
+Langkah:
+
+```bash
+cd backend
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan storage:link
+npm run build
+php artisan serve
+```
+
+Portal web berjalan di `http://127.0.0.1:8000`, sedangkan REST API berjalan di `http://127.0.0.1:8000/api`.
+
+### Aplikasi Mobile Flutter
+
+Persyaratan:
+
+- Flutter SDK
+- Android Studio atau VS Code dengan plugin Flutter
+- Emulator Android atau perangkat fisik
+
+Langkah:
+
+```bash
+cd ukm_band_mobile
+flutter pub get
+flutter run
+```
+
+Endpoint REST API default untuk emulator Android adalah `http://10.0.2.2:8000/api`. Untuk perangkat fisik, gunakan IP lokal komputer server backend.
 
 ---
 
-### 2. Aplikasi Mobile (Flutter)
-
-#### Persyaratan Sistem
-*   Flutter SDK (versi terbaru disarankan)
-*   Android Studio / VS Code dengan plugin Flutter terpasang
-*   Emulator Android atau perangkat fisik untuk pengujian
-
-#### Langkah Instalasi
-1.  Masuk ke direktori aplikasi mobile:
-    ```bash
-    cd ukm_band_mobile
-    ```
-2.  Ambil dependensi proyek:
-    ```bash
-    flutter pub get
-    ```
-3.  Sesuaikan alamat REST API backend:
-    *   Buka file `lib/services/api_service.dart`.
-    *   Untuk pengujian emulator Android standar, endpoint default adalah `http://10.0.2.2:8000`.
-    *   Jika menggunakan perangkat fisik, ubah `baseUrl` menjadi IP lokal komputer server Anda (contoh: `http://192.168.1.10:8000`).
-4.  Jalankan aplikasi pada perangkat pengujian:
-    ```bash
-    flutter run
-    ```
-
----
-
-## 📊 Diagram Relasi Database (Class Diagram)
-
-Berikut adalah rancangan hubungan tabel basis data yang mendukung seluruh fitur terintegrasi di dalam platform UKM Band:
+## Diagram Relasi Database Laravel
 
 ```mermaid
 classDiagram
@@ -231,18 +319,16 @@ classDiagram
     }
 
     User "1" --> "*" Playlist : membuat
-    User "1" --> "*" History : merekam_aktivitas
+    User "1" --> "*" History : merekam aktivitas
     User "*" --> "*" Song : menyukai
     User "1" --> "*" Comment : menulis
     User "1" --> "*" Feedback : mengirim
-    
     Playlist "*" --> "*" Song : berisi
-    
     Song "1" --> "*" History : memiliki
     Song "1" --> "*" Comment : memiliki
-    
-    Comment "1" --> "*" Comment : merupakan_balasan_dari
+    Comment "1" --> "*" Comment : reply
 ```
 
 ---
-Dibuat dengan penuh dedikasi oleh **Kelompok 2 WebPro (Tubes-APB)**. Selamat mendengarkan karya musik terbaik anak bangsa! 🎧🔥
+
+Dibuat oleh Kelompok 2 Pemrograman Web (WebPro), Pemrograman Orientasi Objek (PBO) untuk Tugas Besar Aplikasi Perangkat Bergerak (APB).

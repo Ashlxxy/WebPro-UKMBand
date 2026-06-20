@@ -8,6 +8,7 @@ import '../models/history_entry.dart';
 import '../models/song.dart';
 import '../models/playlist.dart';
 import '../models/song_comment.dart';
+import 'firebase_backend_service.dart';
 
 class ApiException implements Exception {
   final String message;
@@ -34,6 +35,10 @@ class LikeResult {
 }
 
 class ApiService {
+  static const bool useFirebase = bool.fromEnvironment(
+    'USE_FIREBASE',
+    defaultValue: false,
+  );
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
     defaultValue: 'http://10.0.2.2:8000/api',
@@ -130,6 +135,10 @@ class ApiService {
   ];
 
   String? _token;
+  FirebaseBackendService? _firebaseService;
+
+  FirebaseBackendService get _firebase =>
+      _firebaseService ??= FirebaseBackendService();
 
   String? get token => _token;
 
@@ -143,6 +152,15 @@ class ApiService {
     required String password,
     required String passwordConfirmation,
   }) async {
+    if (useFirebase) {
+      return _firebase.register(
+        name: name,
+        email: email,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      );
+    }
+
     if (localFirst) {
       return _localRegister(
         name: name,
@@ -171,6 +189,10 @@ class ApiService {
     required String email,
     required String password,
   }) async {
+    if (useFirebase) {
+      return _firebase.login(email: email, password: password);
+    }
+
     if (localFirst) {
       return _localLogin(email: email, password: password);
     }
@@ -186,6 +208,10 @@ class ApiService {
   }
 
   Future<AppUser> fetchMe() async {
+    if (useFirebase) {
+      return _firebase.fetchMe();
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchMe();
     }
@@ -195,6 +221,10 @@ class ApiService {
   }
 
   Future<void> logout() async {
+    if (useFirebase) {
+      return _firebase.logout();
+    }
+
     if (localFirst || _isLocalSession) {
       return;
     }
@@ -207,13 +237,25 @@ class ApiService {
     required String email,
     String? avatarPath,
   }) async {
+    if (useFirebase) {
+      return _firebase.updateProfile(
+        name: name,
+        email: email,
+        avatarPath: avatarPath,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
-      return _localUpdateProfile(name: name, email: email, avatarPath: avatarPath);
+      return _localUpdateProfile(
+        name: name,
+        email: email,
+        avatarPath: avatarPath,
+      );
     }
 
     final uri = Uri.parse('$baseUrl/profile');
     final request = http.MultipartRequest('POST', uri);
-    
+
     if (_token != null) {
       request.headers['Authorization'] = 'Bearer $_token';
     }
@@ -223,7 +265,9 @@ class ApiService {
     request.fields['email'] = email;
 
     if (avatarPath != null) {
-      request.files.add(await http.MultipartFile.fromPath('avatar', avatarPath));
+      request.files.add(
+        await http.MultipartFile.fromPath('avatar', avatarPath),
+      );
     }
 
     final streamedResponse = await request.send();
@@ -240,6 +284,10 @@ class ApiService {
   }
 
   Future<List<Song>> fetchSongs({String? query}) async {
+    if (useFirebase) {
+      return _firebase.fetchSongs(query: query);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchSongs(query: query);
     }
@@ -258,6 +306,10 @@ class ApiService {
   }
 
   Future<List<Playlist>> fetchPlaylists() async {
+    if (useFirebase) {
+      return _firebase.fetchPlaylists();
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchPlaylists();
     }
@@ -270,6 +322,10 @@ class ApiService {
   }
 
   Future<Playlist> createPlaylist(String name) async {
+    if (useFirebase) {
+      return _firebase.createPlaylist(name);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localCreatePlaylist(name);
     }
@@ -287,6 +343,10 @@ class ApiService {
     required int playlistId,
     required String name,
   }) async {
+    if (useFirebase) {
+      return _firebase.renamePlaylist(playlistId: playlistId, name: name);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localRenamePlaylist(playlistId: playlistId, name: name);
     }
@@ -304,6 +364,13 @@ class ApiService {
     required int playlistId,
     required int songId,
   }) async {
+    if (useFirebase) {
+      return _firebase.togglePlaylistSong(
+        playlistId: playlistId,
+        songId: songId,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
       return _localTogglePlaylistSong(playlistId: playlistId, songId: songId);
     }
@@ -321,6 +388,13 @@ class ApiService {
     required int playlistId,
     required int songId,
   }) async {
+    if (useFirebase) {
+      return _firebase.removePlaylistSong(
+        playlistId: playlistId,
+        songId: songId,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
       return _localRemovePlaylistSong(playlistId: playlistId, songId: songId);
     }
@@ -335,6 +409,10 @@ class ApiService {
   }
 
   Future<void> deletePlaylist(int playlistId) async {
+    if (useFirebase) {
+      return _firebase.deletePlaylist(playlistId);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localDeletePlaylist(playlistId);
     }
@@ -343,6 +421,10 @@ class ApiService {
   }
 
   Future<List<HistoryEntry>> fetchHistory() async {
+    if (useFirebase) {
+      return _firebase.fetchHistory();
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchHistory();
     }
@@ -355,6 +437,10 @@ class ApiService {
   }
 
   Future<void> recordPlay(int songId) async {
+    if (useFirebase) {
+      return _firebase.recordPlay(songId);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localRecordPlay(songId);
     }
@@ -363,6 +449,10 @@ class ApiService {
   }
 
   Future<LikeResult> toggleLike(int songId) async {
+    if (useFirebase) {
+      return _firebase.toggleLike(songId);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localToggleLike(songId);
     }
@@ -377,6 +467,10 @@ class ApiService {
   }
 
   Future<List<SongComment>> fetchComments(int songId) async {
+    if (useFirebase) {
+      return _firebase.fetchComments(songId);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchComments(songId);
     }
@@ -393,6 +487,14 @@ class ApiService {
     required String content,
     int? parentId,
   }) async {
+    if (useFirebase) {
+      return _firebase.storeComment(
+        songId: songId,
+        content: content,
+        parentId: parentId,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
       return _localStoreComment(
         songId: songId,
@@ -414,6 +516,10 @@ class ApiService {
     required int commentId,
     required String content,
   }) async {
+    if (useFirebase) {
+      return _firebase.updateComment(commentId: commentId, content: content);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localUpdateComment(commentId: commentId, content: content);
     }
@@ -428,6 +534,10 @@ class ApiService {
   }
 
   Future<void> deleteComment(int commentId) async {
+    if (useFirebase) {
+      return _firebase.deleteComment(commentId);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localDeleteComment(commentId);
     }
@@ -436,6 +546,10 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> fetchAdminStats() async {
+    if (useFirebase) {
+      return _firebase.fetchAdminStats();
+    }
+
     if (localFirst || _isLocalSession) {
       return _localFetchAdminStats();
     }
@@ -451,6 +565,16 @@ class ApiService {
     String? coverPath,
     String? filePath,
   }) async {
+    if (useFirebase) {
+      return _firebase.createSong(
+        title: title,
+        artist: artist,
+        description: description,
+        coverPath: coverPath,
+        filePath: filePath,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
       return _localCreateSong(
         title: title,
@@ -463,7 +587,7 @@ class ApiService {
 
     final uri = Uri.parse('$baseUrl/admin/songs');
     final request = http.MultipartRequest('POST', uri);
-    
+
     if (_token != null) {
       request.headers['Authorization'] = 'Bearer $_token';
     }
@@ -501,6 +625,17 @@ class ApiService {
     String? coverPath,
     String? filePath,
   }) async {
+    if (useFirebase) {
+      return _firebase.updateSong(
+        id: id,
+        title: title,
+        artist: artist,
+        description: description,
+        coverPath: coverPath,
+        filePath: filePath,
+      );
+    }
+
     if (localFirst || _isLocalSession) {
       return _localUpdateSong(
         id: id,
@@ -513,8 +648,11 @@ class ApiService {
     }
 
     final uri = Uri.parse('$baseUrl/admin/songs/$id');
-    final request = http.MultipartRequest('POST', uri); // Using POST for multipart update
-    
+    final request = http.MultipartRequest(
+      'POST',
+      uri,
+    ); // Using POST for multipart update
+
     if (_token != null) {
       request.headers['Authorization'] = 'Bearer $_token';
     }
@@ -546,6 +684,10 @@ class ApiService {
   }
 
   Future<void> deleteSong(int id) async {
+    if (useFirebase) {
+      return _firebase.deleteSong(id);
+    }
+
     if (localFirst || _isLocalSession) {
       return _localDeleteSong(id);
     }
@@ -670,7 +812,9 @@ class ApiService {
     final normalizedEmail = email.trim().toLowerCase();
 
     final emailExists = users.any(
-      (u) => u['id'] != userId && u['email']?.toString().toLowerCase() == normalizedEmail,
+      (u) =>
+          u['id'] != userId &&
+          u['email']?.toString().toLowerCase() == normalizedEmail,
     );
 
     if (emailExists) {
@@ -684,14 +828,14 @@ class ApiService {
 
     users[index]['name'] = name.trim();
     users[index]['email'] = normalizedEmail;
-    
+
     // For local mock, we just store the path
     if (avatarPath != null) {
       users[index]['avatar_url'] = avatarPath;
     }
 
     await _writeJsonList(_localUsersKey, users);
-    return AppUser.fromJson(users[index] as Map<String, dynamic>);
+    return AppUser.fromJson(users[index]);
   }
 
   Future<List<Song>> _localFetchSongs({String? query}) async {
@@ -1035,7 +1179,7 @@ class ApiService {
     await _ensureLocalSeed();
     final songs = await _localSongPayloads();
     final users = await _readJsonList(_localUsersKey);
-    
+
     int totalPlays = 0;
     int totalLikes = 0;
     for (final song in songs) {
@@ -1061,7 +1205,7 @@ class ApiService {
     await _ensureLocalSeed();
     final songs = await _readJsonList(_localSongsKey);
     final id = _nextId(songs);
-    
+
     final newSong = {
       'id': id,
       'title': title,
